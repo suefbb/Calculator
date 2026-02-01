@@ -1,0 +1,42 @@
+body{
+    background-color: yellowgreen;
+}
+.parent div{
+    border-radius: 20px;
+    width: 80px;
+    height: 70px;
+    background-color: blueviolet;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: x-large;
+}
+.parent{
+    display: flex;
+}
+.parent div:hover{
+    background-color: blue;
+}
+input{
+    border-radius: 6px;
+    width: 35px;
+    height: 40px;
+    font-size: large;
+    text-align: center;
+}
+.input{
+    display: flex;
+    justify-content: center;
+}
+.pow_num{
+    height: 22px;
+    width: 17px;
+    background-color: blue;
+    border: solid 1px black;
+}
+.pow{
+    font-size: large;
+    margin-left: 3px;
+    position: relative;
+    bottom: 9px;
+}
