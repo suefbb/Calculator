@@ -1,6 +1,7 @@
 let parent = document.querySelector(".parent")
 let input = document.getElementsByTagName('input')
 let inp_parent = document.querySelector(".input")
+let output = document.getElementById("output")
 let equal = document.getElementById("equal")
 let currentInputclass = '' ; let currentInput = ''
 let elements = ['inp_1'] ; const Number_Values = '+-0123456789/*';const Connect_Signs = '+-x/'
@@ -62,26 +63,26 @@ function getLooping(eleDepth,list) { let looping = 1;
     }
     return looping
 }
-function calculations(list,i) {//اللستة اللي عليها الدور تتحل list
+function calculations(list) {//اللستة اللي عليها الدور تتحل list
     console.log(list);
     let finalStr = ''
     let deleted1 = '';let deleted2 = ''
-    if (list[i][0] == 'x' || list[i][0] == '/') {
-        deleted1 = list[i][0];
-        list[i] = list[i].slice(1 , list[i].length);}
+    if (list[0] == 'x' || list[0] == '/') {
+        deleted1 = list[0];
+        list = list.slice(1 , list.length);}
     let listParts = [''];let partIndex = 0//--++----++---+-+---++-++++-+-- ()=ry5%&  5/3x3/5x2/4
-    if (Connect_Signs.includes(list[i][list[i].length-1])) {
-        deleted2 = list[i][list[i].length-1];
-        list[i] = list[i].slice(0 , list[i].length-1)
+    if (Connect_Signs.includes(list[list.length-1])) {
+        deleted2 = list[list.length-1];
+        list = list.slice(0 , list.length-1)
     }
-    for (let index = 0; index < list[i].length; index++) {//index => a char //تكوين الاجزاء
-        if (list[i][index] == '+' && list[i][index+1] == '+') {list[i]= list[i].slice(0,index)+list[i].slice(index+2,list[i].length);index--;continue}
-        if (list[i][index] == '+' && list[i][index+1] == '-') {list[i]= list[i].slice(0,index)+list[i].slice(index+1,list[i].length);index--;continue}
-        if (list[i][index] == '-' && list[i][index+1] == '+') {list[i]= list[i].slice(0,index+1)+list[i].slice(index+2,list[i].length);index--;continue}
-        if (list[i][index] == '-' && list[i][index+1] == '-') {list[i]= list[i].slice(0,index)+list[i].slice(index+2,list[i].length);index--;continue}
-        if (list[i][index] == '+' || list[i][index] == '-'){if (index !== 0 && list[i][index-1] !== 'x' && list[i][index-1] !== '/'){listParts.push('');partIndex++;}} 
-        if (list[i][index] == 'x' || (list[i][index] == '/' && list[i][index+1]!== '*')) {listParts.push(`${list[i][index]}`,''); partIndex+=2;console.log('t');}
-        if ((list[i][index] !== '/' && list[i][index] !== 'x') || (list[i][index] == '/' && list[i][index+1] =='*')) {listParts[partIndex] = listParts[partIndex] + list[i][index]}
+    for (let index = 0; index < list.length; index++) {//index => a char //تكوين الاجزاء
+        if (list[index] == '+' && list[index+1] == '+') {list= list.slice(0,index)+'+'+list.slice(index+2,list.length);index--;continue}
+        if (list[index] == '+' && list[index+1] == '-') {list= list.slice(0,index)+list.slice(index+1,list.length);index--;continue}
+        if (list[index] == '-' && list[index+1] == '+') {list= list.slice(0,index+1)+list.slice(index+2,list.length);index--;continue}
+        if (list[index] == '-' && list[index+1] == '-') {list= list.slice(0,index)+'+'+list.slice(index+2,list.length);index--;continue}
+        if (list[index] == '+' || list[index] == '-'){if (index !== 0 && list[index-1] !== 'x' && list[index-1] !== '/'){listParts.push('');partIndex++;}} 
+        if (list[index] == 'x' || (list[index] == '/' && list[index+1]!== '*')) {listParts.push(`${list[index]}`,''); partIndex+=2;console.log('t');}
+        if ((list[index] !== '/' && list[index] !== 'x') || (list[index] == '/' && list[index+1] =='*')) {listParts[partIndex] = listParts[partIndex] + list[index]}
     }
     console.log(listParts);
     //if (i !== 1) list[i] = deleted + list[i]
@@ -97,7 +98,7 @@ function calculations(list,i) {//اللستة اللي عليها الدور ت�
     for (let p = 0; p < listParts.length-1; p++) {listParts.splice(p,2, sum(listParts[p],listParts[p+1]));p-=1}
     finalStr+= deleted1;
     for (let p = 0; p < listParts.length; p++) {finalStr+= listParts[p];}
-    finalStr+=deleted2;
+    finalStr+=deleted2;if (finalStr[0]!== '+' && finalStr[0]!== '-' && finalStr[0]!== 'x' && finalStr[0]!== '/' && finalStr !== '') {finalStr = '+'+finalStr}
     console.log(finalStr);return finalStr
 }
 function getClassParts(theClass) {
@@ -111,27 +112,32 @@ function getClassParts(theClass) {
     }
     return classParts
 }
-function add_link(list,index0) {
-    let newList = [index0,'']
-    for (let i = 1; i < list.length-1; i++) {
+function add_link(list) {
+    let value = ''
+    for (let i = 1; i < list.length; i++) {
+        if (i < list.length-1) {
+        if (list[i+1] == '') list.splice(i+1,1)
+        if (list[i] == '') list.splice(i,1)
         if((list[i][list[i].length-1]=='x'||list[i][list[i].length-1]=='/') && (list[i+1][0]=='x'||list[i+1][0]=='/')){
             list[i+1] = list[i+1].slice(1,list[i+1].length)
         }
         if ((list[i][list[i].length-1]=='+'||list[i][list[i].length-1]=='-') && (list[i+1][0]=='x'||list[i+1][0]=='/')) {
             list[i]+='1'
-        }
-        newList[1]+=list[i]
-    }return newList   
+        }}
+        value+=list[i]
+    }return value   
 }//()=r5%&
 console.log(add_link(['inp','1/','x4+','/2'],'inp'));
 function calc(list , process) {//calcList , inp
-    for (let i = 1; i < list.length; i++) {//1 2 3 4 5]
-        if (i % 2 == 0 && list[i].length > 2) {calc(list[i],getClassParts(list[i][0])[getClassParts(list[i][0]).length-2]);}
-        if (i % 2 == 1) {list[i] = calculations(list,i);console.log(list[i],i);}//look
-        if (i % 2 == 0 && list[i].length == 2) {list[i] =calculations(list[i],1)}
-        if (i == list.length-1) {list= calculations(add_link(list,list[0]),1)}//احذف اللست و حط الناتج
+    for (let i = 1; i < list.length; i++) {//1 2] 3  //1 2 3 4 5]
+        if (i % 2 == 0 && list[i].length > 2) {list[i]= calc(list[i],getClassParts(list[i][0])[getClassParts(list[i][0]).length-2]);}
+        if (i % 2 == 1) {list[i] = calculations(list[i]);console.log(list[i]);}//look
+        if (i % 2 == 0 && list[i].length == 2) {list[i] =calculations(list[i][1]);console.log(list[i]);}
+        if (i == list.length-1) {console.log(list);list[1]= add_link(list);list.splice(2,list.length-2);}//احذف اللست و حط الناتج
     }
-    console.log(list);
+    console.log(calculations(list[1]));
+    if (list[0] == 'inp_1') {return ' '+calculations(list[1])}
+    return list
 }//['inp' ,'2/' ,['inp_bra1' ,'10/25x' ,['inp_bra1_bra2' ,'3/2+1'] ,'-1-2-' ,['inp_bra1_bra3' ,'3-2x6/4'] ,'/3'] ,'+5/6']
 for (let i = 0; i < input.length; i++) {
     input[i].onfocus = function select(){
@@ -158,7 +164,10 @@ for (let i = 0; i < 14; i++) {
 }
 let calcList = ''
 equal.onclick = ()=> { calcList = getNestedLists(children_class, 1, [])
-    calc(calcList,getClassParts(calcList[0])[getClassParts(calcList[0]).length-2])}
+    let out = calc(calcList,getClassParts(calcList[0])[getClassParts(calcList[0]).length-2])
+    console.log(out);
+    if (out[0] == ' ') output.innerHTML = out.slice(1, out.length)
+}
 parent.children[18].onclick = ()=>{//       delete   last
     currentInput = document.getElementsByClassName(currentInputclass)
     if (currentInput[0].value !== '') {

@@ -1,7 +1,7 @@
 body{
     background-color: yellowgreen;
 }
-.parent div{
+.parent div , .output{
     border-radius: 20px;
     width: 80px;
     height: 70px;
@@ -39,4 +39,12 @@ input{
     margin-left: 3px;
     position: relative;
     bottom: 9px;
+}
+.output{
+    text-align: center;
+    width: 50%;
+    position: relative;
+    left: 25%;
+    font-size: xx-large;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
