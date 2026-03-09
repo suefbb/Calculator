@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <canvas id="board" width="600" height="600" style="background-color: aqua;"></canvas>
+    
+    <script>
+        const cnv = document.getElementById('board');
+        const context = cnv.getContext('2d');
+        const inc = 1/4/2
+        context.fillStyle = 'black'
+        //context.fillRect(cnv.width/2-1,0,2,cnv.height)//between 199 , 200
+        //context.fillRect(0,cnv.height/2-1,cnv.width,2)
+        //ابدا بتمثيل 4 نجط
+        function corners(height,width,length) {//1/4 4 4
+            height/=124
+            return [[height/-2,width/-2,length/-2],[height/-2,width/-2,length/2],[height/-2,width/2,length/-2],[height/-2,width/2,length/2],[height/2,width/-2,length/-2],[height/2,width/-2,length/2],[height/2,width/2,length/-2],[height/2,width/2,length/2]]
+        }
+        function consRectPoints(spcPointBtwEye,cors) {
+            let listOfPnt = []
+            for (cor in cors) {
+                if (cors[cor][0] == cors[0][0]) {
+                    for (let n = cors[1-1][1-1]; n <= cors[4][0]; n+=inc) {listOfPnt.push([n,cors[cor][1],cors[cor][2]])}
+                }
+                if (cors[cor][1] == cors[0][1]) {
+                    for (let n = cors[1-1][1]; n < cors[2][1]; n+=inc) {listOfPnt.push([cors[cor][0],n,cors[cor][2]])}
+                }
+                if (cors[cor][2] == cors[0][2]) {
+                    for (let n = cors[1-1][2]; n < cors[1][2]; n+=inc) {listOfPnt.push([cors[cor][0],cors[cor][1],n])}
+                }
+            }
+            return listOfPnt
+        }
+        //to construct some points,give me every point alone
+        function cons_point(spcPointBtwEye,shapecor) {
+            shapecor[0]=spcPointBtwEye-shapecor[0] //height,< this is space between eye and cor
+            if (shapecor[0] !== 0) {
+                context.fillRect(Math.round(cnv.width/2-1 +spcPointBtwEye*shapecor[1]/shapecor[0]),Math.round(cnv.height/2-1 +spcPointBtwEye*shapecor[2]/shapecor[0]),1,1)
+            }
+        }
+        //consRectPoints(4,corners(12,124,124))
+        function Rotate(allPoints,axis,degrees,cenOfRot) {
+            let axises =[]
+            //showing the role of axises
+            if (axis.toLowerCase() == 'x') {axises = [0,1]//index of x and z in the point list 
+            }                                                        // cos   sin
+            else if (axis.toLowerCase() == 'y') {axises = [2,0]//index of y and z in the point list
+            }                                                          // cos   sin
+            else if (axis.toLowerCase() == 'z') {axises = [1,2]//index of x and y in the point list
+            }let th = 0;let theta = 0
+            setInterval(()=>{
+            //context.clearRect(0,0,600,400)
+            if (th < theta+degrees*Math.PI/180) {
+                context.clearRect(0,0,cnv.width,cnv.height)
+                for (let pnt in allPoints) {
+                    let dist = Math.sqrt(Math.pow(allPoints[pnt][axises[0]]-cenOfRot[axises[0]],2) + Math.pow(allPoints[pnt][axises[1]]-cenOfRot[axises[1]],2))
+                    let beside = allPoints[pnt][axises[0]]-cenOfRot[axises[0]];theta = Math.acos(beside/dist)
+                    if (allPoints[pnt][axises[1]]-cenOfRot[axises[1]] < 0) {//if y in cir is -,get -theta
+                    theta = 2*Math.PI - theta}
+                    theta+= th
+                    if (axis.toLowerCase() == 'x') {cons_point(4,[Math.round(cenOfRot[axises[1]]+Math.sin(theta)*dist),Math.round(cenOfRot[axises[0]]+Math.cos(theta)*dist),allPoints[pnt][2]])//
+                    }
+                    else if (axis.toLowerCase() == 'y') {cons_point(4,[Math.round(cenOfRot[axises[1]]+Math.sin(theta)*dist),allPoints[pnt][1],Math.round(cenOfRot[axises[0]]+Math.cos(theta)*dist)])//
+                    }
+                    else if (axis.toLowerCase() == 'z') {cons_point(4,[allPoints[pnt][0],Math.round(cenOfRot[axises[0]]+Math.cos(theta)*dist),Math.round(cenOfRot[axises[1]]+Math.sin(theta)*dist)])//
+                    }
+                }
+                th+= Math.PI/180;
+            }
+            },16)
+        }//       [z , x , y]
+        Rotate(consRectPoints(1/4/4,corners(62,62,62)) ,'z',364,[2,224,0])
+        //Rotate([[1/16,Math.cos(Math.PI),Math.sin(Math.PI)]],'x',360,[2,40,80])
+        //Rotate([[1/16,Math.cos(Math.PI),Math.sin(Math.PI)]],'y',360,[2,40,80])
+    </script>
+</body>
+</html>
