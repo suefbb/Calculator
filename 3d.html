@@ -52,7 +52,7 @@
             else if (axis.toLowerCase() == 'z') {axises = [1,2]//index of x and y in the point list
             }let th = 0;let theta = 0
             setInterval(()=>{
-            //context.clearRect(0,0,600,400)
+            context.clearRect(0,0,600,400)
             if (th < theta+degrees*Math.PI/180) {
                 context.clearRect(0,0,cnv.width,cnv.height)
                 for (let pnt in allPoints) {
@@ -77,4 +77,5 @@
         //Rotate([[1/16,Math.cos(Math.PI),Math.sin(Math.PI)]],'y',360,[2,40,80])
     </script>
 </body>
+
 </html>
