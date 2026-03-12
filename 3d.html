@@ -10,7 +10,7 @@
     <script>
         const cnv = document.getElementById('board');
         const context = cnv.getContext('2d');
-        const inc = 1/4/2
+        const inc = 1
         context.fillStyle = 'black'
         //ابدا بتمثيل 4 نجط
         function corners(height,width,length,p) {//this func for cubes and ParallelRects, p is position 
@@ -71,8 +71,17 @@
             }
             },16)
         }//       [z , x , y]
+        function collectPoints(points1,points2) {
+            let list = [];let maxValue = Math.max(points1.length,points2.length)
+            for (let index = 0; index < maxValue; index++) {
+                if (index < points1.length) {list.push(points1[index])}
+                if (index < points2.length) {list.push(points2[index])}
+            }
+            return list
+        }
         Rotate(consRectPoints(corners(62/2,62/2,62,[0,0,0])),'x',  364  ,  [0,0,0] ,           1)
         //                     allPoints ,                    axis, degrees,cenOfRot,spcPointBtwEye and [0,0,0]
     </script>
 </body>
+
 </html>
