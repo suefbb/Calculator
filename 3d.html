@@ -70,18 +70,24 @@
                 th+= Math.PI/180;
             }
             },16)
-        }//       [z , x , y]
-        function collectPoints(points1,points2) {
-            let list = [];let maxValue = Math.max(points1.length,points2.length)
-            for (let index = 0; index < maxValue; index++) {
-                if (index < points1.length) {list.push(points1[index])}
-                if (index < points2.length) {list.push(points2[index])}
+        }/*[z , x , y]*/let i = 0;let list = [];
+        function collectPoints(...points) {
+            let isNotUndif = true
+            while (isNotUndif) {
+                isNotUndif=false//i changed the value to make loop ready to be broken
+                for (let ind = 0; ind < points.length; ind++) {
+                    if (points[ind][i]!== undefined) {
+                        isNotUndif=true;//but if it finds one index isn't undif,it 'll continue the while loop
+                        list.push(points[ind][i])
+                    }//if the index isn't undif,don't make any desition about the while loop and continue the for loop to see another points
+                }//if it dosen't make desition it is already ready to break
+                if (!isNotUndif) {break}
+                i++
             }
             return list
         }
-        Rotate(consRectPoints(corners(62/2,62/2,62,[0,0,0])),'x',  364  ,  [0,0,0] ,           1)
-        //                     allPoints ,                    axis, degrees,cenOfRot,spcPointBtwEye and [0,0,0]
+        Rotate(collectPoints(consRectPoints(corners(62/2,62/2,62/2,[0,0,0])),consRectPoints(corners(62/2,62/2,62/2,[0,0,62/2])),consRectPoints(corners(62/2,62/2,62/2,[0,62/2,0])),consRectPoints(corners(62/2,62/2,62/2,[0,62/2,62/2]))),'y',144*5,[0,0,0],1)
+        //allPoints,axis, degrees,cenOfRot,spcPointBtwEye and [0,0,0]
     </script>
 </body>
-
 </html>
