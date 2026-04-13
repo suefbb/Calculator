@@ -1,4 +1,12 @@
 //#rr50=&&()yR
+/*imagine you get a knife to chop the circle.what 'll you get?
+    1.0     #        0.3  #     #
+sin 0.9  #    #  and 0.2 #       # and the 0 row and those first two shapes but
+    0.8 #      #     0.1#         # the will be flipped in y axis
+*/
+/*if we read these shapes sin from left to write and use new line after every shape we will get
+sin is=> 0.8 0.9 1 1 0.9 0.8 \n 0.5 0.6 0.7 0.7 0.6 0.5 \n and in negative=> -0.1 -0.2 -0.3 -0.3 -0.2 -0.1 \n -0.4 -0.5 -0.6 -0.6 -0.5 -0.4
+we will do that with rising and descending loops*/
 #include <iostream>
 #include<cmath>
 using namespace std;
